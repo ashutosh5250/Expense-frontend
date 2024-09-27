@@ -13,7 +13,7 @@ const App = () => {
  
   useEffect(() => {
     const fetchExpenses = async () => {
-      const response = await axios.get('http://localhost:8082/api/expenses');
+      const response = await axios.get('https://expense-backend-exq4.onrender.com/api/expenses');
       setExpenses(response.data);
     };
     fetchExpenses();
@@ -35,12 +35,12 @@ const App = () => {
 
  
   const addExpense = async (expense) => {
-    const response = await axios.post('http://localhost:8082/api/expenses', expense);
+    const response = await axios.post('https://expense-backend-exq4.onrender.com/api/expenses', expense);
     setExpenses([response.data, ...expenses]);
   };
 
   const deleteExpense = async (id) => {
-    await axios.delete(`http://localhost:8082/api/expenses/${id}`);
+    await axios.delete(`https://expense-backend-exq4.onrender.com/api/expenses${id}`);
     setExpenses(expenses.filter((expense) => expense._id !== id));
   };
 
