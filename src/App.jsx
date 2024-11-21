@@ -10,11 +10,15 @@ const App = () => {
   const [totalExpense, setTotalExpense] = useState(0);
   const [netBalance, setNetBalance] = useState(0);
 
- 
   useEffect(() => {
     const fetchExpenses = async () => {
-      const response = await axios.get('https://expense-backend-exq4.onrender.com/api/expenses');
-      setExpenses(response.data);
+      try {
+        const response = await axios.get('https://expense-backend-exq4.onrender.com/api/expenses');
+        setExpenses(response.data);
+      } catch (error) {
+        console.error("Error fetching expenses:", error.message);
+        alert("Failed to fetch expenses. Please try again later.");
+      }
     };
     fetchExpenses();
   }, []);
@@ -33,15 +37,24 @@ const App = () => {
     setNetBalance(income - expense);
   }, [expenses]);
 
- 
   const addExpense = async (expense) => {
-    const response = await axios.post('https://expense-backend-exq4.onrender.com/api/expenses', expense);
-    setExpenses([response.data, ...expenses]);
+    try {
+      const response = await axios.post('https://expense-backend-exq4.onrender.com/api/expenses', expense);
+      setExpenses([response.data, ...expenses]);
+    } catch (error) {
+      console.error("Error adding expense:", error.message);
+      alert("Failed to add expense. Please try again.");
+    }
   };
 
   const deleteExpense = async (id) => {
-    await axios.delete(`https://expense-backend-exq4.onrender.com/api/expenses${id}`);
-    setExpenses(expenses.filter((expense) => expense._id !== id));
+    try {
+      await axios.delete(`https://expense-backend-exq4.onrender.com/api/expenses/${id}`);
+      setExpenses(expenses.filter((expense) => expense._id !== id));
+    } catch (error) {
+      console.error("Error deleting expense:", error.message);
+      alert("Failed to delete expense. Please try again.");
+    }
   };
 
   return (
@@ -60,3 +73,4 @@ const App = () => {
 };
 
 export default App;
+
